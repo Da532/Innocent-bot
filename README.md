@@ -11,6 +11,8 @@ As of recent, I've seen multiple Discord communities I have been a part of been 
 * `kall` - short for kick all, kicks every member in the server as long as you have permission.
 * `ball` - short for ban all, bans every member in the server as long as you have permission.
 * `rall` - short for rename all, renames every member in the server to the `rename_to` string declared in config as long as you have permission.
+* `dall condition` - short for delete all, deletes every condition stated. Conditions currently include; `channels`, `roles`, `emojis` and `all`.
+* `destroy` - deletes everything possible, then bans every member in the server as long as you have permission.
 
 ## Setup
 Download the files for the bot and make sure Python 3.6+ is installed.

