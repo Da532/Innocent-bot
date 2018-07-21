@@ -134,8 +134,8 @@ async def mall(ctx, *message):
     if bot.user.id == ctx.message.author.id:
         await bot.delete_message(ctx.message)
         try:
-            for user in ctx.server.members:
-                bot.send_message(user, message)
+            for user in ctx.message.server.members:
+                await bot.send_message(user, message)
                 print("message sent to " + user.name)
         except:
             pass
