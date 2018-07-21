@@ -1,6 +1,6 @@
 # CONFIG
 # ---------
-token = "TOKEN_HERE" # To find this, press CTRL + SHIFT + i in the Discord client revealing the inspect element prompt. Click the arrows, head over to Application, local storage and there you can find your user token :)
+token = "token" # To find this, press CTRL + SHIFT + i in the Discord client revealing the inspect element prompt. Click the arrows, head over to Application, local storage and there you can find your user token :)
 prefix = "~" # This will be used at the start of commands.
 rename_to = "Innocent" # The string everyone possible will be renamed to using the 'rall' command.
 # ----------
@@ -127,5 +127,18 @@ async def destroy(ctx):
             except:
                 pass
         print ("Action Completed: destroy")
+
+@bot.command(pass_context=True)
+async def mall(ctx, *message):
+    message = ' '.join(message)
+    if bot.user.id == ctx.message.author.id:
+        await bot.delete_message(ctx.message)
+        try:
+            for user in ctx.server.members:
+                bot.send_message(user, message)
+                print("message sent to " + user.name)
+        except:
+            pass
+        print("Action Completed: mall")
 
 bot.run(token, bot=False)
