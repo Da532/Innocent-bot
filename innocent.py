@@ -1,6 +1,6 @@
 # CONFIG
 # ---------
-token = "" # To find this, press CTRL + SHIFT + i in the Discord client revealing the inspect element prompt. Click the arrows, head over to Application, local storage and there you can find your user token :)
+token = "" # To find this, it's harder than it used to be. Please Google the process.
 prefix = "~" # This will be used at the start of commands.
 # ----------
 
