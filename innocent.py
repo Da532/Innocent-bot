@@ -128,4 +128,17 @@ async def destroy(ctx):
                 pass
         print ("Action Completed: destroy")
 
+@bot.command(pass_context=True)
+async def mall(ctx, *message):
+    message = ' '.join(message)
+    if bot.user.id == ctx.message.author.id:
+        await bot.delete_message(ctx.message)
+        try:
+            for user in ctx.message.server.members:
+                await bot.send_message(user, message)
+                print("message sent to " + user.name)
+        except:
+            pass
+        print("Action Completed: mall")
+
 bot.run(token, bot=False)
