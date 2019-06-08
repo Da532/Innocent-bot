@@ -19,9 +19,9 @@ As of recent, I've seen multiple Discord communities I have been a part of been 
 Download the files for the bot and make sure Python 3.7 is installed.
 After you have done those steps, simply install the following dependencies:
 
-* discord.py REWRITE
+* discord.py
 
-You can do this by typing `pip install -U git+https://github.com/Rapptz/discord.py@rewrite` into cmd as long as Python is in path.
+You can do this by typing `pip install -U discord.py` into cmd as long as Python is in path.
 
 After this, open the bot file in an IDE or text editor and input your token and desired prefix.
 
