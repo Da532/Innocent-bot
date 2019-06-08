@@ -1,6 +1,6 @@
 # CONFIG
 # ---------
-token = "" # To find this, it's harder than it used to be. Please Google the process.
+token = "" # To find this, it's harder than it used to be. Please Google the process. Or look at this: https://discordhelp.net/discord-token
 prefix = "~" # This will be used at the start of commands.
 # ----------
 
@@ -163,4 +163,4 @@ except:
     pass
 
 bot.run(token, bot=False)
-# Starts the bot by passing it a token and telling it it isn't really a bot.
+# Starts the bot by passing it a user token and telling it it isn't really a bot.
