@@ -4,9 +4,9 @@ token = ""  # To find this, it's harder than it used to be. Please Google the pr
 prefix = "~"  # This will be used at the start of commands.
 # ----------
 
+# Imports the needed libs.
 import discord
 from discord.ext import commands
-# Imports the needed libs.
 
 print ("Loading..")
 
@@ -20,16 +20,21 @@ async def on_ready():
 
 
 async def self_check(ctx):
+    """
+    A secondary check to ensure nobody but the owner can run these commands
+    """
     if bot.user.id == ctx.message.author.id:
         return True
     else:
         return False
 
 
-# A secondary check to ensure nobody but the owner can run these commands.
 @commands.check(self_check)
 @bot.command(pass_context=True)
 async def kall(ctx):
+    """
+    Kicks every member in a server
+    """
     await ctx.message.delete()
     for user in list(ctx.guild.members):
         try:
@@ -40,10 +45,12 @@ async def kall(ctx):
     print ("Action Completed: kall")
 
 
-# Kicks every member in a server.
 @commands.check(self_check)
 @bot.command(pass_context=True)
 async def ball(ctx):
+    """
+    Bans every member in a server
+    """
     await ctx.message.delete()
     for user in list(ctx.guild.members):
         try:
@@ -54,10 +61,12 @@ async def ball(ctx):
     print ("Action Completed: ball")
 
 
-# Bans every member in a server.
 @commands.check(self_check)
 @bot.command(pass_context=True)
 async def rall(ctx, rename_to):
+    """
+    Renames every member in a server
+    """
     await ctx.message.delete()
     for user in list(ctx.guild.members):
         try:
@@ -66,12 +75,14 @@ async def rall(ctx, rename_to):
         except:
             print (f"{user.name} has NOT been renamed to {rename_to} in {ctx.guild.name}")
     print ("Action Completed: rall")
-# Renames every member in a server.
 
 
 @commands.check(self_check)
 @bot.command(pass_context=True)
 async def mall(ctx, *, message):
+    """
+    Messages every member in a server
+    """
     await ctx.message.delete()
     for user in ctx.guild.members:
         try:
@@ -80,12 +91,14 @@ async def mall(ctx, *, message):
         except:
             print(f"{user.name} has NOT recieved the message.")
     print("Action Completed: mall")
-# Messages every member in a server.
 
 
 @commands.check(self_check)
 @bot.command(pass_context=True)
 async def dall(ctx, condition):
+    """
+    Can perform multiple actions that envolve mass deleting
+    """
     if condition.lower() == "channels":
         for channel in list(ctx.guild.channels):
             try:
@@ -132,10 +145,12 @@ async def dall(ctx, condition):
         print ("Action Completed: dall all")
 
 
-# Can perform multiple actions that envolve mass deleting.
 @commands.check(self_check)
 @bot.command(pass_context=True)
 async def destroy(ctx):
+    """
+    Outright destroys a server
+    """
     await ctx.message.delete()
     for emoji in list(ctx.guild.emojis):
         try:
@@ -166,6 +181,5 @@ async def destroy(ctx):
             print (f"{user.name} has FAILED to be banned from {ctx.guild.name}")
 
     print ("Action Completed: destroy")
-# Outright destroys a server.
 
 bot.run(token, bot=False)  # Starts the bot by passing it a token and telling it it isn't really a bot.
