@@ -4,19 +4,19 @@ token = ""  # To find this, it's harder than it used to be. Please Google the pr
 prefix = "~"  # This will be used at the start of commands.
 # ----------
 
-# Imports the needed libs.
-import discord
+# Import the needed libs.
 from discord.ext import commands
 
-print ("Loading..")
+print("Loading..")
 
+# Declare the bot, pass it a prefix and let it know to only listen to itself.
 bot = commands.Bot(command_prefix=prefix, self_bot=True)
-bot.remove_command("help")  # Declares the bot, passes it a prefix and lets it know to only listen to itself.
+bot.remove_command("help")
 
 
 @bot.event
 async def on_ready():
-    print ("Ready to be innocent.")
+    print("Ready to be innocent.")
 
 
 async def self_check(ctx):
@@ -25,6 +25,7 @@ async def self_check(ctx):
     """
     if bot.user.id == ctx.message.author.id:
         return True
+
     else:
         return False
 
@@ -39,10 +40,12 @@ async def kall(ctx):
     for user in list(ctx.guild.members):
         try:
             await ctx.guild.kick(user)
-            print (f"{user.name} has been kicked from {ctx.guild.name}")
+            print(f"{user.name} has been kicked from {ctx.guild.name}")
+
         except:
-            print (f"{user.name} has FAILED to be kicked from {ctx.guild.name}")
-    print ("Action Completed: kall")
+            print(f"{user.name} has FAILED to be kicked from {ctx.guild.name}")
+
+    print("Action Completed: kall")
 
 
 @commands.check(self_check)
@@ -55,10 +58,12 @@ async def ball(ctx):
     for user in list(ctx.guild.members):
         try:
             await ctx.guild.ban(user)
-            print (f"{user.name} has been banned from {ctx.guild.name}")
+            print(f"{user.name} has been banned from {ctx.guild.name}")
+
         except:
-            print (f"{user.name} has FAILED to be banned from {ctx.guild.name}")
-    print ("Action Completed: ball")
+            print(f"{user.name} has FAILED to be banned from {ctx.guild.name}")
+
+    print("Action Completed: ball")
 
 
 @commands.check(self_check)
@@ -71,10 +76,12 @@ async def rall(ctx, rename_to):
     for user in list(ctx.guild.members):
         try:
             await user.edit(nick=rename_to)
-            print (f"{user.name} has been renamed to {rename_to} in {ctx.guild.name}")
+            print(f"{user.name} has been renamed to {rename_to} in {ctx.guild.name}")
+
         except:
-            print (f"{user.name} has NOT been renamed to {rename_to} in {ctx.guild.name}")
-    print ("Action Completed: rall")
+            print(f"{user.name} has NOT been renamed to {rename_to} in {ctx.guild.name}")
+
+    print("Action Completed: rall")
 
 
 @commands.check(self_check)
@@ -88,8 +95,10 @@ async def mall(ctx, *, message):
         try:
             await user.send(message)
             print(f"{user.name} has recieved the message.")
+
         except:
             print(f"{user.name} has NOT recieved the message.")
+
     print("Action Completed: mall")
 
 
@@ -103,46 +112,59 @@ async def dall(ctx, condition):
         for channel in list(ctx.guild.channels):
             try:
                 await channel.delete()
-                print (f"{channel.name} has been deleted in {ctx.guild.name}")
+                print(f"{channel.name} has been deleted in {ctx.guild.name}")
+
             except:
-                print (f"{channel.name} has NOT been deleted in {ctx.guild.name}")
-        print ("Action Completed: dall channels")
+                print(f"{channel.name} has NOT been deleted in {ctx.guild.name}")
+
+        print("Action Completed: dall channels")
     elif condition.lower() == "roles":
         for role in list(ctx.guild.roles):
             try:
                 await role.delete()
-                print (f"{role.name} has been deleted in {ctx.guild.name}")
+                print(f"{role.name} has been deleted in {ctx.guild.name}")
+
             except:
-                print (f"{role.name} has NOT been deleted in {ctx.guild.name}")
-        print ("Action Completed: dall roles")
+                print(f"{role.name} has NOT been deleted in {ctx.guild.name}")
+
+        print("Action Completed: dall roles")
     elif condition.lower() == "emojis":
         for emoji in list(ctx.guild.emojis):
             try:
                 await emoji.delete()
-                print (f"{emoji.name} has been deleted in {ctx.guild.name}")
+                print(f"{emoji.name} has been deleted in {ctx.guild.name}")
+
             except:
-                print (f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
-        print ("Action Completed: dall emojis")
+                print(f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
+
+        print("Action Completed: dall emojis")
+
     elif condition.lower() == "all":
         for channel in list(ctx.guild.channels):
             try:
                 await channel.delete()
-                print (f"{channel.name} has been deleted in {ctx.guild.name}")
+                print(f"{channel.name} has been deleted in {ctx.guild.name}")
+
             except:
-                print (f"{channel.name} has NOT been deleted in {ctx.guild.name}")
+                print(f"{channel.name} has NOT been deleted in {ctx.guild.name}")
+
         for role in list(ctx.guild.roles):
             try:
                 await role.delete()
-                print (f"{role.name} has been deleted in {ctx.guild.name}")
+                print(f"{role.name} has been deleted in {ctx.guild.name}")
+
             except:
-                print (f"{role.name} has NOT been deleted in {ctx.guild.name}")
+                print(f"{role.name} has NOT been deleted in {ctx.guild.name}")
+
         for emoji in list(ctx.guild.emojis):
             try:
                 await emoji.delete()
-                print (f"{emoji.name} has been deleted in {ctx.guild.name}")
+                print(f"{emoji.name} has been deleted in {ctx.guild.name}")
+
             except:
-                print (f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
-        print ("Action Completed: dall all")
+                print(f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
+
+        print("Action Completed: dall all")
 
 
 @commands.check(self_check)
@@ -155,31 +177,36 @@ async def destroy(ctx):
     for emoji in list(ctx.guild.emojis):
         try:
             await emoji.delete()
-            print (f"{emoji.name} has been deleted in {ctx.guild.name}")
+            print(f"{emoji.name} has been deleted in {ctx.guild.name}")
+
         except:
-            print (f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
+            print(f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
 
     for channel in list(ctx.guild.channels):
         try:
             await channel.delete()
-            print (f"{channel.name} has been deleted in {ctx.guild.name}")
+            print(f"{channel.name} has been deleted in {ctx.guild.name}")
+
         except:
-            print (f"{channel.name} has NOT been deleted in {ctx.guild.name}")
+            print(f"{channel.name} has NOT been deleted in {ctx.guild.name}")
 
     for role in list(ctx.guild.roles):
         try:
             await role.delete()
-            print (f"{role.name} has been deleted in {ctx.guild.name}")
+            print(f"{role.name} has been deleted in {ctx.guild.name}")
+
         except:
-            print (f"{role.name} has NOT been deleted in {ctx.guild.name}")
+            print(f"{role.name} has NOT been deleted in {ctx.guild.name}")
 
     for user in list(ctx.guild.members):
         try:
             await ctx.guild.ban(user)
-            print (f"{user.name} has been banned from {ctx.guild.name}")
-        except:
-            print (f"{user.name} has FAILED to be banned from {ctx.guild.name}")
+            print(f"{user.name} has been banned from {ctx.guild.name}")
 
-    print ("Action Completed: destroy")
+        except:
+            print(f"{user.name} has FAILED to be banned from {ctx.guild.name}")
+
+    print("Action Completed: destroy")
+
 
 bot.run(token, bot=False)  # Starts the bot by passing it a token and telling it it isn't really a bot.
