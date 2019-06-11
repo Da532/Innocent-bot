@@ -24,7 +24,6 @@ async def kall(ctx):
     """
     Kicks every member in a server
     """
-    print("yeet")
     await ctx.message.delete()
     for user in list(ctx.guild.members):
         try:
