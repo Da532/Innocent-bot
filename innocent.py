@@ -70,13 +70,14 @@ try:
     @bot.command(pass_context=True)
     async def mall(ctx, *, message):
         await ctx.message.delete()
-        for user in ctx.guild.members:
+        members = ctx.author.guild.members
+        for member in members:
             try:
-                await user.send(message)
-                print(f"{user.name} has recieved the message.")
+                await member.send(f"{message}")
+                await asyncio.sleep(1) #prevent discord cooldown
+                print(f"{member.name} got dmed!")
             except:
-                print(f"{user.name} has NOT recieved the message.")
-        print("Action Completed: mall")
+                print(f"User ({member.name} dms are closed")
     # Messages every member in a server.
 
     @commands.check(self_check)
