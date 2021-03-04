@@ -1,166 +1,201 @@
-# CONFIG
-# ---------
-token = "" # To find this, it's harder than it used to be. Please Google the process.
-prefix = "~" # This will be used at the start of commands.
-# ----------
+token = "" # refer to main branch
+prefix = "~" 
 
 import discord
 from discord.ext import commands
-# Imports the needed libs.
 
 print ("Loading..")
 
-bot = commands.Bot(command_prefix=prefix, self_bot=True)
-bot.remove_command("help")
-# Declares the bot, passes it a prefix and lets it know to (hopefully) only listen to itself.
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix=prefix, intents=intents, help_command=None, self_bot=True)
+# Construct an instance of commands.Bot
+
+@bot.event
+async def on_command_error(ctx, error):
+    pass
+
+@bot.check
+async def command_invoke_delete(ctx):
+    try:
+        await ctx.message.delete()
+    except discord.Forbidden:
+        # lol this should never happen
+        pass
+    finally:
+        return True
 
 @bot.event
 async def on_ready():
-    print ("Ready to be innocent.")
-# Prints when the bot is ready to be used.
+    print("Ready to be innocent.")
 
-try:
-    async def self_check(ctx):
-        if bot.user.id == ctx.message.author.id:
-            return True
+@bot.command()
+async def kall(ctx):
+    for member in ctx.guild.members:
+
+        if member == bot.user:
+            continue
+
+        try:
+            await member.kick()
+        except discord.Forbidden:
+            print(f"{member.name} has FAILED to be kicked from {ctx.guild.name}")
         else:
-            return False
-    # A secondary check to ensure nobody but the owner can run these commands.
+            print(f"{member.name} has been kicked from {ctx.guild.name}")
 
-    @commands.check(self_check)
-    @bot.command(pass_context=True)
-    async def kall(ctx):
-        await ctx.message.delete()
-        for user in list(ctx.guild.members):
-            try:
-                await ctx.guild.kick(user)
-                print (f"{user.name} has been kicked from {ctx.guild.name}")
-            except:
-                print (f"{user.name} has FAILED to be kicked from {ctx.guild.name}")
-        print ("Action Completed: kall")
-    # Kicks every member in a server.
+    print("Action Completed: kall")
 
-    @commands.check(self_check)
-    @bot.command(pass_context=True)
-    async def ball(ctx):
-        await ctx.message.delete()
-        for user in list(ctx.guild.members):
-            try:
-                await ctx.guild.ban(user)
-                print (f"{user.name} has been banned from {ctx.guild.name}")
-            except:
-                print (f"{user.name} has FAILED to be banned from {ctx.guild.name}")
-        print ("Action Completed: ball")  
-    # Bans every member in a server.
+@bot.command()
+async def ball(ctx):
+    for member in ctx.guild.members:
+        
+        if member == bot.user:
+            continue
 
-    @commands.check(self_check)
-    @bot.command(pass_context=True)
-    async def rall(ctx, rename_to):
-        await ctx.message.delete()
-        for user in list(ctx.guild.members):
-            try:
-                await user.edit(nick=rename_to)
-                print (f"{user.name} has been renamed to {rename_to} in {ctx.guild.name}")
-            except:
-                print (f"{user.name} has NOT been renamed to {rename_to} in {ctx.guild.name}")
-        print ("Action Completed: rall")
-    # Renames every member in a server.
+        try:
+            await member.ban()
+        except discord.Forbidden:
+            print(f"{member.name} has FAILED to be banned from {ctx.guild.name}")
+        else:
+            print(f"{member.name} has been kicked from {ctx.guild.name}")
+    
+    print("Action Completed: ball")  
 
-    @commands.check(self_check)
-    @bot.command(pass_context=True)
-    async def mall(ctx, *, message):
-        await ctx.message.delete()
-        for user in ctx.guild.members:
-            try:
-                await user.send(message)
-                print(f"{user.name} has recieved the message.")
-            except:
-                print(f"{user.name} has NOT recieved the message.")
-        print("Action Completed: mall")
-    # Messages every member in a server.
+@bot.command()
+async def rall(ctx, *, nick):
+    for member in ctx.guild.members:
+            
+        try:
+            await member.edit(nick=nick)
+        except discord.Forbidden:
+            print(f"{member.name} has NOT been renamed to {nick} in {ctx.guild.name}")
+        else:
+            print(f"{member.name} has been renamed to {nick} in {ctx.guild.name}")
+            
+    print("Action Completed: rall")
 
-    @commands.check(self_check)
-    @bot.command(pass_context=True)
-    async def dall(ctx, condition):
-        if condition.lower() == "channels":
-            for channel in list(ctx.guild.channels):
-                try:
-                    await channel.delete()
-                    print (f"{channel.name} has been deleted in {ctx.guild.name}")
-                except:
-                    print (f"{channel.name} has NOT been deleted in {ctx.guild.name}")
-            print ("Action Completed: dall channels")
-        elif condition.lower() == "roles":
-            for role in list(ctx.guild.roles):
-                try:
-                    await role.delete()
-                    print (f"{role.name} has been deleted in {ctx.guild.name}")
-                except:
-                    print (f"{role.name} has NOT been deleted in {ctx.guild.name}")
-            print ("Action Completed: dall roles")
-        elif condition.lower() == "emojis":
-            for emoji in list(ctx.guild.emojis):
-                try:
-                    await emoji.delete()
-                    print (f"{emoji.name} has been deleted in {ctx.guild.name}")
-                except:
-                    print (f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
-            print ("Action Completed: dall emojis")
-        elif condition.lower() == "all":
-            for channel in list(ctx.guild.channels):
-                try:
-                    await channel.delete()
-                    print (f"{channel.name} has been deleted in {ctx.guild.name}")
-                except:
-                    print (f"{channel.name} has NOT been deleted in {ctx.guild.name}")
-            for role in list(ctx.guild.roles):
-                try:
-                    await role.delete()
-                    print (f"{role.name} has been deleted in {ctx.guild.name}")
-                except:
-                    print (f"{role.name} has NOT been deleted in {ctx.guild.name}")
-            for emoji in list(ctx.guild.emojis):
-                try:
-                    await emoji.delete()
-                    print (f"{emoji.name} has been deleted in {ctx.guild.name}")
-                except:
-                    print (f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
-            print ("Action Completed: dall all")
-    # Can perform multiple actions that envolve mass deleting.
+@bot.command()
+async def mall(ctx, *, message):
+    for member in ctx.guild.members:
+        
+        if member == bot.user:
+            continue
+            
+        try:
+            await member.send(message)
+        except discord.Forbidden:
+            print(f"{member.name} has NOT recieved the message.")
+        else:
+            print(f"{member.name} has recieved the message.")
+            
+    print("Action Completed: mall")
 
-    @commands.check(self_check)
-    @bot.command(pass_context=True)
-    async def destroy(ctx):
-        await ctx.message.delete()
-        for emoji in list(ctx.guild.emojis):
-            try:
-                await emoji.delete()
-                print (f"{emoji.name} has been deleted in {ctx.guild.name}")
-            except:
-                print (f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
-        for channel in list(ctx.guild.channels):
-            try:
-                await channel.delete()
-                print (f"{channel.name} has been deleted in {ctx.guild.name}")
-            except:
-                print (f"{channel.name} has NOT been deleted in {ctx.guild.name}")
-        for role in list(ctx.guild.roles):
-            try:
-                await role.delete()
-                print (f"{role.name} has been deleted in {ctx.guild.name}")
-            except:
-                print (f"{role.name} has NOT been deleted in {ctx.guild.name}")
-        for user in list(ctx.guild.members):
-            try:
-                await ctx.guild.ban(user)
-                print (f"{user.name} has been banned from {ctx.guild.name}")
-            except:
-                print (f"{user.name} has FAILED to be banned from {ctx.guild.name}")
-        print ("Action Completed: destroy")
-    # Outright destroys a server.
+@bot.group(invoke_without_command=True, case_insensitive=True)
+async def dall(ctx):
+    print(f'Choose an option from -> {", ".join([c.name for c in ctx.command.commands])}')
+    
+@dall.command()
+async def channels(ctx):
+    for channel in ctx.guild.channels:
+        try:
+            await channel.delete()
+        except discord.Forbidden:
+            print(f"{channel.name} has NOT been deleted in {ctx.guild.name}")
+        except discord.HTTPException:
+            print(f"{channel.name} has NOT been deleted in {ctx.guild.name}")
+        else:
+            print(f"{channel.name} has been deleted in {ctx.guild.name}")
+    print("Action Completed: dall channels")  
 
-except:
-    pass
+@dall.command()
+async def roles(ctx):
 
-bot.run(token, bot=False)
-# Starts the bot by passing it a token and telling it it isn't really a bot.
+    for role in ctx.guild.roles:
+
+        if str(role) == '@everyone':
+            continue
+
+        try:
+            await role.delete()
+        except discord.Forbidden:
+            print(f"{role.name} has NOT been deleted in {ctx.guild.name}")
+        else:
+            print(f"{role.name} has been deleted in {ctx.guild.name}")
+                
+    print("Action Completed: dall roles")
+  
+@dall.command()
+async def emojis(ctx):
+    
+    for emoji in ctx.guild.emojis:
+        try:
+            await emoji.delete()
+            print(f"{emoji.name} has been deleted in {ctx.guild.name}")
+        except discord.Forbidden:
+            print(f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
+        else:
+            print(f"{emoji.name} has been deleted in {ctx.guild.name}")
+            
+    print("Action Completed: dall emojis")
+
+@dall.command()
+async def all(ctx):
+    # LOL
+    print('Deleting all...')
+    
+    print('Deleting channels..')
+    for channel in ctx.guild.channels:
+        try:
+            await channel.delete()
+        except discord.Forbidden:
+            print(f"{channel.name} has NOT been deleted in {ctx.guild.name}")
+        except discord.HTTPException:
+            print(f"{channel.name} has NOT been deleted in {ctx.guild.name}")
+        else:
+            print(f"{channel.name} has been deleted in {ctx.guild.name}")
+        
+    print('Deleting roles..')
+    for role in ctx.guild.roles:
+
+        if str(role) == '@everyone':
+            continue
+
+        try:
+            await role.delete()
+        except discord.Forbidden:
+            print(f"{role.name} has NOT been deleted in {ctx.guild.name}")
+        else:
+            print(f"{role.name} has been deleted in {ctx.guild.name}")
+            
+    print('Deleting emojis..')
+    for emoji in ctx.guild.emojis:
+        try:
+            await emoji.delete()
+        except discord.Forbidden:
+            print(f"{emoji.name} has NOT been deleted in {ctx.guild.name}")
+        else:
+            print(f"{emoji.name} has been deleted in {ctx.guild.name}")
+            
+    print("Action Completed: dall all")
+   
+@bot.command()
+async def destroy(ctx):
+
+    for member in ctx.guild.members:
+
+        if member == bot.user:
+            continue
+
+        try:
+            await member.ban()
+        except discord.Forbidden:
+            print(f"{member.name} has FAILED to be banned from {ctx.guild.name}")
+        else:
+            print(f"{member.name} has been banned from {ctx.guild.name}")
+
+    await all(ctx)
+
+    print("Action Completed: destroy")
+try:
+    bot.run(token, bot=False)
+except discord.LoginFailure:
+    print('Invalid Token Passed')
